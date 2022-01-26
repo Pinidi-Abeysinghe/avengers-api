@@ -1,6 +1,14 @@
 const express=require('express');
 const app=express(); //created an application
-body =app.use(express.json());
+const logger = require('./middleware/logger');
+const auth = require('./middleware/authenticator');
+body =app.use(express.json()); //parse the JSON
+
+app.use(logger); //telling app to use custom middleware
+
+app.use(auth);
+
+
 
 let avengerArray =[{id:1 , name: "Captain America"},
 {id:2, name: "Thor"},
@@ -17,6 +25,7 @@ app.get('/',(req,res)=>{
 
 //Get all method
 app.get('/api/avengers',(req,res)=>{
+    console.log("GET All method was called");
     let avengers = ['Iron Man','Captain America','Black widow','Thor'];
     res.send(avengers);
 
